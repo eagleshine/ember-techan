@@ -10,6 +10,8 @@ import layout from './template';
  * @access  public
  */
 export default Ember.Component.extend({
+  zoomData: {},
+  dateFormat: '%d-%b-%y',
   layout: layout,
   currentUrl: null,
   identificator: null,
@@ -165,10 +167,13 @@ export default Ember.Component.extend({
     const indicatorTop = d3.scale.linear()
       .range([dim.indicator.top, dim.indicator.bottom]);
 
-    const parseDate = d3.time.format("%d-%b-%y").parse;
+    const parseDate = d3.time.format(this.get('dateFormat')).parse;
 
     const zoom = d3.behavior.zoom()
-      .on("zoom", draw);
+      .on("zoom", () => {
+        this.set('zoomData', {scale: zoom.scale(), translate: zoom.translate()});
+        draw();
+      });
 
     const zoomPercent = d3.behavior.zoom();
 
@@ -485,7 +490,7 @@ export default Ember.Component.extend({
     if (isEma2) {
       svg.select("g.ema.ma-2").datum(techan.indicator.ema().period(50)(data)).call(ema2);
     }
-    if (isMacd) {
+    if (isMacd && !Ember.isEmpty(macdData)) {
       svg.select("g.macd .indicator-plot").datum(macdData).call(macd);
     }
     if (isRsi) {
@@ -493,7 +498,7 @@ export default Ember.Component.extend({
     }
 
     svg.select("g.crosshair.chart").call(chartCrosshair).call(zoom);
-    if (isMacd) {
+    if (isMacd && !Ember.isEmpty(macdData)) {
       svg.select("g.crosshair.macd").call(macdCrosshair).call(zoom);
     }
     if (isRsi) {
@@ -508,6 +513,12 @@ export default Ember.Component.extend({
     // Associate the zoom with the scale after a domain has been applied
     zoom.x(zoomable).y(y);
     zoomPercent.y(yPercent);
+
+    if (this.get('zoomData')['translate'] && this.get('zoomData')['scale']) {
+      zoom.translate(this.get('zoomData')['translate']);
+      zoom.scale(this.get('zoomData')['scale']);
+      draw();
+    }
 
     function reset() {
       zoom.scale(1);
@@ -529,7 +540,7 @@ export default Ember.Component.extend({
         svg.select("g.ichimoku").call(ichimoku.refresh);
       }
 
-      if (isMacd) {
+      if (isMacd && !Ember.isEmpty(macdData)) {
         svg.select("g.macd .axis.left").call(macdAxisLeft);
 
         svg.select("g.macd .indicator-plot").call(macd.refresh);

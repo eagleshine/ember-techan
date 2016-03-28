@@ -290,7 +290,7 @@ export default Ember.Route.extend({
     model.currentUrl = Ember.get(transition, 'targetName');
 
     let i = 0;
-    setInterval(() => {
+    window.setInterval(() => {
       if (i > model.data.length - 1) {
         i = 0;
       }
@@ -305,4 +305,4 @@ export default Ember.Route.extend({
       i++;
     }, 100);
   }
-})
+});
