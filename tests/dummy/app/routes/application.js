@@ -256,6 +256,17 @@ export default Ember.Route.extend({
       {date: "12-Jun-13", open: 24.16, high: 24.26, low: 23.58,close: 23.77,volume: 26445790},
       {date: "11-Jun-13", open: 24.03, high: 24.35, low: 24.00,close: 24.03,volume: 29676383}
     ];
+    const flatData = [];
+    for(let index = 1; index< 36; index++){
+      flatData.push({
+        date: index < 32 ? `${index}-Jan-16`: `${index-31}-Feb-16`,
+        open: 40,
+        high: 40,
+        low: 40,
+        close: 40,
+        volume: 29676383
+      });
+    }
     const trades = [
       { date: data[67].date, type: "buy", price: data[67].low, low: data[67].low, high: data[67].high },
       { date: data[100].date, type: "sell", price: data[100].high, low: data[100].low, high: data[100].high },
@@ -277,7 +288,7 @@ export default Ember.Route.extend({
     ];
     const width = window.screen.availWidth * 0.49;
     return {
-      data: data,
+      data: flatData || data,
       width: width,
       closeValues: closeValues,
       supstanceValues: supstanceValues,
