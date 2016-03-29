@@ -288,7 +288,7 @@ export default Ember.Route.extend({
     ];
     const width = window.screen.availWidth * 0.49;
     return {
-      data: flatData || data,
+      data: data || flatData,
       width: width,
       closeValues: closeValues,
       supstanceValues: supstanceValues,

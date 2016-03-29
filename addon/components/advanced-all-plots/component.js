@@ -12,6 +12,7 @@ import layout from './template';
 export default Ember.Component.extend({
   zoomData: {},
   dateFormat: '%d-%b-%y',
+  timeAnnotationFormat: '%Y-%m-%d',
   layout: layout,
   currentUrl: null,
   identificator: null,
@@ -217,7 +218,7 @@ export default Ember.Component.extend({
 
     const timeAnnotation = techan.plot.axisannotation()
       .axis(xAxis)
-      .format(d3.time.format('%Y-%m-%d'))
+      .format(d3.time.format(this.get('timeAnnotationFormat')))
       .width(65)
       .translate([0, dim.plot.height]);
 
