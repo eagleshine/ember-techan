@@ -85,8 +85,7 @@ export default Ember.Component.extend({
   }),
   actions: {
     redraw() {
-      this.get('svg').selectAll('*').remove();
-      this.draw();
+      this.redraw();
     }
   },
   init() {
@@ -130,7 +129,7 @@ export default Ember.Component.extend({
         let width = this.$().width();
         this.set('width', width);
         this.get('svg').attr('width', width);
-        this.sendAction('redraw');
+        Ember.run.once(this, this.redraw);
       }, 150));
     };
     Ember.$(window).on('resize', this.updatePlotWidth);
@@ -146,6 +145,10 @@ export default Ember.Component.extend({
   },
   getClipUrl(clipId) {
     return "url(" + this.get('currentUrl') + "#" + clipId + ")";
+  },
+  redraw() {
+    this.get('svg').selectAll('*').remove();
+    this.draw();
   },
   draw() {
     this.refreshChartHeight();
