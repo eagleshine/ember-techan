@@ -130,7 +130,7 @@ export default Ember.Component.extend({
         this.set('width', width);
         this.get('svg').attr('width', width);
         Ember.run.once(this, this.redraw);
-      }, 150));
+      }, 300));
     };
     Ember.$(window).on('resize', this.updatePlotWidth);
     this.updatePlotWidth();
