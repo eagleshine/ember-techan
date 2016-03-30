@@ -171,10 +171,8 @@ export default Ember.Component.extend({
     const parseDate = d3.time.format(this.get('dateFormat')).parse;
 
     const zoom = d3.behavior.zoom()
-      .on("zoom", () => {
-        this.set('zoomData', {scale: zoom.scale(), translate: zoom.translate()});
-        draw();
-      });
+      .on("zoom", draw)
+      .on('zoomend', () => this.set('zoomData', {scale: zoom.scale(), translate: zoom.translate()}));
 
     const zoomPercent = d3.behavior.zoom();
 
@@ -514,6 +512,10 @@ export default Ember.Component.extend({
     // Associate the zoom with the scale after a domain has been applied
     zoom.x(zoomable).y(y);
     zoomPercent.y(yPercent);
+    
+    if (Ember.isArray(this.get('scaleExtent')) && this.get('scaleExtent').length === 2) {
+      zoom.scaleExtent(this.get('scaleExtent'));
+    }
 
     if (this.get('zoomData')['translate'] && this.get('zoomData')['scale']) {
       zoom.translate(this.get('zoomData')['translate']);
