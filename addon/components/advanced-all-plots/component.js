@@ -10,7 +10,6 @@ import layout from './template';
  * @access  public
  */
 export default Ember.Component.extend({
-  zoomData: {},
   dateFormat: '%d-%b-%y',
   timeAnnotationFormat: '%Y-%m-%d',
   layout: layout,
@@ -174,13 +173,16 @@ export default Ember.Component.extend({
     const parseDate = d3.time.format(this.get('dateFormat')).parse;
 
     const zoom = d3.behavior.zoom()
-      .on("zoom", draw)
-      .on('zoomend', () => this.set('zoomData', {scale: zoom.scale(), translate: zoom.translate()}));
+      .on("zoom", draw);
+
+    if (Ember.isArray(this.get('scaleExtent')) && this.get('scaleExtent').length === 2) {
+      zoom.scaleExtent(this.get('scaleExtent'));
+    }
 
     const zoomPercent = d3.behavior.zoom();
 
     const x = techan.scale.financetime()
-      .range([0, dim.plot.width]);
+      .range([0, this.get('data').length * 10]);
 
     const y = d3.scale.linear()
       .range([dim.chart.height, 0]);
@@ -507,24 +509,17 @@ export default Ember.Component.extend({
       svg.select("g.crosshair.rsi").call(rsiCrosshair).call(zoom);
     }
 
-    const zoomable = x.zoomable();
+    const zoomable = x.zoomable().clamp(false);
     zoomable.domain([indicatorPreRoll, data.length]); // Zoom in a little to hide indicator preroll
-
-    draw();
 
     // Associate the zoom with the scale after a domain has been applied
     zoom.x(zoomable).y(y);
     zoomPercent.y(yPercent);
-    
-    if (Ember.isArray(this.get('scaleExtent')) && this.get('scaleExtent').length === 2) {
-      zoom.scaleExtent(this.get('scaleExtent'));
-    }
 
-    if (this.get('zoomData')['translate'] && this.get('zoomData')['scale']) {
-      zoom.translate(this.get('zoomData')['translate']);
-      zoom.scale(this.get('zoomData')['scale']);
-      draw();
-    }
+    //set position to latest data
+    zoom.translate([0.9 * dim.plot.width - x(data[data.length - 1]), 1]);
+
+    draw();
 
     function reset() {
       zoom.scale(1);
