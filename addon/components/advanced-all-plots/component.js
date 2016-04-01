@@ -10,6 +10,8 @@ import layout from './template';
  * @access  public
  */
 export default Ember.Component.extend({
+  //sleva kakoi-to ujasno shirokiy gutter)
+  showCloseAnnotation: false,
   dateFormat: '%d-%b-%y',
   timeAnnotationFormat: '%Y-%m-%d',
   layout: layout,
@@ -234,11 +236,13 @@ export default Ember.Component.extend({
       .format(d3.format(',.2fs'))
       .translate([x(0), 0]);
 
-    const closeAnnotation = techan.plot.axisannotation()
-      .axis(yAxis)
-      .accessor(chart.accessor())
-      .format(d3.format(',.2fs'))
-      .translate([x(0), 0]);
+    const closeAnnotation = techan.plot.axisannotation();
+    if (this.get('showCloseAnnotation')) {
+      closeAnnotation.axis(yAxis)
+        .accessor(chart.accessor())
+        .format(d3.format(',.2fs'))
+        .translate([x(0), 0]);
+    }
 
     const volumeAxis = d3.svg.axis()
       .scale(yVolume)
@@ -483,7 +487,9 @@ export default Ember.Component.extend({
     }
 
     svg.select("g." + chartType).datum(data).call(chart);
-    svg.select("g.close.annotation").datum([data[data.length - 1]]).call(closeAnnotation);
+    if(this.get('showCloseAnnotation')){
+      svg.select("g.close.annotation").datum([data[data.length - 1]]).call(closeAnnotation);
+    }
     svg.select("g.volume").datum(data).call(volume);
     if (isSma0) {
       svg.select("g.sma.ma-0").datum(techan.indicator.sma().period(10)(data)).call(sma0);
