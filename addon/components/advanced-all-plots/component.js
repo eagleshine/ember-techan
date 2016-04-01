@@ -10,10 +10,12 @@ import layout from './template';
  * @access  public
  */
 export default Ember.Component.extend({
-  //sleva kakoi-to ujasno shirokiy gutter)
+  //close price annotation
   showCloseAnnotation: false,
   dateFormat: '%d-%b-%y',
   timeAnnotationFormat: '%Y-%m-%d',
+  timeAnnotationWidth: 65,
+  yAnnotationFormat: ',.2fs',
   layout: layout,
   currentUrl: null,
   identificator: null,
@@ -224,7 +226,7 @@ export default Ember.Component.extend({
     const timeAnnotation = techan.plot.axisannotation()
       .axis(xAxis)
       .format(d3.time.format(this.get('timeAnnotationFormat')))
-      .width(65)
+      .width(this.get('timeAnnotationWidth'))
       .translate([0, dim.plot.height]);
 
     const yAxis = d3.svg.axis()
@@ -233,7 +235,7 @@ export default Ember.Component.extend({
 
     const chartAnnotation = techan.plot.axisannotation()
       .axis(yAxis)
-      .format(d3.format(',.2fs'))
+      .format(d3.format(this.get('yAnnotationFormat')))
       .translate([x(0), 0]);
 
     const closeAnnotation = techan.plot.axisannotation();
