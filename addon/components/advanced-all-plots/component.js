@@ -10,6 +10,7 @@ import layout from './template';
  * @access  public
  */
 export default Ember.Component.extend({
+  allowZoom: true,
   //close price annotation
   showCloseAnnotation: false,
   dateFormat: '%d-%b-%y',
@@ -176,8 +177,10 @@ export default Ember.Component.extend({
 
     const parseDate = d3.time.format(this.get('dateFormat')).parse;
 
-    const zoom = d3.behavior.zoom()
-      .on("zoom", draw);
+    const zoom = d3.behavior.zoom();
+    if(this.get('allowZoom')){
+      zoom.on("zoom", draw);
+    }
 
     if (Ember.isArray(this.get('scaleExtent')) && this.get('scaleExtent').length === 2) {
       zoom.scaleExtent(this.get('scaleExtent'));
