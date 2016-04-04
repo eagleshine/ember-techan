@@ -17,6 +17,7 @@ export default Ember.Component.extend({
   timeAnnotationFormat: '%Y-%m-%d',
   timeAnnotationWidth: 65,
   yAnnotationFormat: ',.2fs',
+  xScaleLength: null,
   layout: layout,
   currentUrl: null,
   identificator: null,
@@ -188,8 +189,12 @@ export default Ember.Component.extend({
 
     const zoomPercent = d3.behavior.zoom();
 
-    const x = techan.scale.financetime()
-      .range([0, this.get('data').length * 10]);
+    const x = techan.scale.financetime();
+    if(this.get('xScaleLength')){
+      x.range([0, this.get('xScaleLength')]);
+    } else {
+      x.range([0, dim.plot.width]);
+    }
 
     const y = d3.scale.linear()
       .range([dim.chart.height, 0]);
