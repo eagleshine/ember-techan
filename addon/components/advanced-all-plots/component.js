@@ -17,6 +17,7 @@ export default Ember.Component.extend({
   timeAnnotationFormat: '%Y-%m-%d',
   timeAnnotationWidth: 65,
   yAnnotationFormat: ',.2fs',
+  yAnnotationText: 'Price ($)',
   xScaleLength: null,
   layout: layout,
   currentUrl: null,
@@ -382,7 +383,7 @@ export default Ember.Component.extend({
       .attr("y", -12)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
-      .text("Price ($)");
+      .text(this.get('yAnnotationText'));
 
     chartSelection.append("g")
       .attr("class", "close annotation up");
