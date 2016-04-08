@@ -527,14 +527,14 @@ export default Ember.Component.extend({
     }
 
     const zoomable = x.zoomable().clamp(false);
-    zoomable.domain([indicatorPreRoll, data.length]); // Zoom in a little to hide indicator preroll
+    zoomable.domain([0, data.length]); // Zoom in a little to hide indicator preroll
 
     // Associate the zoom with the scale after a domain has been applied
     zoom.x(zoomable).y(y);
     zoomPercent.y(yPercent);
 
     //set position to latest data
-    zoom.translate([0.9 * dim.plot.width - x(data[data.length - 1]), 1]);
+    zoom.translate([dim.plot.width - x(data[data.length - 1]), 1]);
 
     draw();
 
