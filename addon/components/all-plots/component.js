@@ -420,6 +420,10 @@ export default Ember.Component.extend({
       return d3.ascending(accessor.d(a), accessor.d(b));
     });
 
+    if(!data.length){
+      return;
+    }
+
     x.domain(techan.scale.plot.time(data).domain());
     y.domain(techan.scale.plot.ohlc(data.slice(indicatorPreRoll)).domain());
     yPercent.domain(techan.scale.plot.percent(y, accessor(data[indicatorPreRoll])).domain());
