@@ -1,5 +1,11 @@
 [![Circle CI](https://circleci.com/gh/dbsparkle-team/ember-techan/tree/master.svg?style=svg)](https://circleci.com/gh/dbsparkle-team/ember-techan/tree/master)
 
+[![Code Climate](https://codeclimate.com/github/dbsparkle-team/ember-techan/badges/gpa.svg)](https://codeclimate.com/github/dbsparkle-team/ember-techan)
+
+[![Test Coverage](https://codeclimate.com/github/dbsparkle-team/ember-techan/badges/coverage.svg)](https://codeclimate.com/github/dbsparkle-team/ember-techan/coverage)
+
+[![Issue Count](https://codeclimate.com/github/dbsparkle-team/ember-techan/badges/issue_count.svg)](https://codeclimate.com/github/dbsparkle-team/ember-techan)
+
 # Ember-techan
 
 This README outlines the details of collaborating on this Ember addon.
