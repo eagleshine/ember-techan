@@ -9,7 +9,8 @@
   "scripts": {
     "build": "ember build",
     "start": "ember server",
-    "test": "ember try:testall; CODECLIMATE_REPO_TOKEN=b8c26ce6f914d4f79ae27b7fb8d9c40e58d2f5260e350b20ae7711fa0a05af26 codeclimate-test-reporter < lcov.info"
+    "test": "ember try:testall",
+    "send-coverage": "CODECLIMATE_REPO_TOKEN=b8c26ce6f914d4f79ae27b7fb8d9c40e58d2f5260e350b20ae7711fa0a05af26 codeclimate-test-reporter < lcov.info"
   },
   "repository": "https://github.com/dbsparkle-team/ember-techan.git",
   "engines": {
