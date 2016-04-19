@@ -6,6 +6,8 @@
 
 [![Issue Count](https://codeclimate.com/github/dbsparkle-team/ember-techan/badges/issue_count.svg)](https://codeclimate.com/github/dbsparkle-team/ember-techan)
 
+[![Ember Observer Score](https://emberobserver.com/badges/ember-techan.svg)](https://emberobserver.com/addons/ember-techan)
+
 # Ember-techan
 
 
