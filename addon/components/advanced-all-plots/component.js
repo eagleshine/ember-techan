@@ -203,7 +203,7 @@ export default Ember.Component.extend({
     const yPercent = y.copy(); // Same as y at this stage, will get a different domain later
 
     const yVolume = d3.scale.linear()
-      .range([y(0), y(0.2)]);
+      .range([indicatorTop(0) + dim.indicator.height, indicatorTop(0)]);
 
     const chartType = this.get('type');
 
@@ -257,7 +257,7 @@ export default Ember.Component.extend({
 
     const volumeAxis = d3.svg.axis()
       .scale(yVolume)
-      .orient("right")
+      .orient("left")
       .ticks(3)
       .tickFormat(d3.format(",.3s"));
 
@@ -272,7 +272,7 @@ export default Ember.Component.extend({
     let macdCrosshair;
 
     if (isMacd) {
-      const indicatorIndex = Ember.$.inArray('macd', this.get('enabledIndicators'));
+      const indicatorIndex = Ember.$.inArray('macd', this.get('enabledIndicators')) + 1;
       macdScale = d3.scale.linear()
         .range([indicatorTop(indicatorIndex) + dim.indicator.height, indicatorTop(indicatorIndex)]);
 
@@ -304,7 +304,7 @@ export default Ember.Component.extend({
     let rsiCrosshair;
 
     if (isRsi) {
-      const indicatorIndex = Ember.$.inArray('rsi', this.get('enabledIndicators'));
+      const indicatorIndex = Ember.$.inArray('rsi', this.get('enabledIndicators')) + 1;
       //  macdScale.copy()
       rsiScale = d3.scale.linear()
         .range([indicatorTop(indicatorIndex) + dim.indicator.height, indicatorTop(indicatorIndex)]);
