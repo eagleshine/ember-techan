@@ -450,7 +450,7 @@ export default Ember.Component.extend({
     d3.select(this.get('resetSelector')).on("click", reset);
 
     const accessor = chart.accessor(),
-      indicatorPreRoll = 33; // Don't show where indicators don't have data
+      indicatorPreRoll = 0; // Don't show where indicators don't have data
 
     const data = this.get('data').map(function(d) {
       return {
@@ -470,7 +470,7 @@ export default Ember.Component.extend({
     }
 
     x.domain(techan.scale.plot.time(data).domain());
-    y.domain(techan.scale.plot.ohlc(data.slice(indicatorPreRoll)).domain());
+    y.domain(this.niceRange(techan.scale.plot.ohlc(data.slice(indicatorPreRoll)).domain())).nice();
     yPercent.domain(techan.scale.plot.percent(y, accessor(data[indicatorPreRoll])).domain());
     yVolume.domain(techan.scale.plot.volume(data).domain());
 
@@ -538,7 +538,7 @@ export default Ember.Component.extend({
     zoomPercent.y(yPercent);
 
     //set position to latest data
-    zoom.translate([dim.plot.width - x(data[data.length - 1]), 1]);
+    zoom.translate([dim.plot.width - x(data[data.length - 1]), 0]);
 
     draw();
 
@@ -590,5 +590,11 @@ export default Ember.Component.extend({
       }
       svg.select("g.crosshair.chart").call(chartCrosshair.refresh);
     }
+  },
+  niceRange(range){
+    const begin = range[0],
+      end = range[1];
+
+    return [Math.ceil(begin * 0.9), Math.floor(end * 1.1)];
   }
 });
