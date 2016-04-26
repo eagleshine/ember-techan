@@ -192,7 +192,7 @@ export default Ember.Component.extend({
 
     const x = techan.scale.financetime();
     if(this.get('xScaleLength')){
-      x.range([0, this.get('xScaleLength')]);
+      x.range([0, Math.max(this.get('xScaleLength'), dim.plot.width)]);
     } else {
       x.range([0, dim.plot.width]);
     }
