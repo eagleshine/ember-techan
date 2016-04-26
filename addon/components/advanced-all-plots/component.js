@@ -593,8 +593,9 @@ export default Ember.Component.extend({
   },
   niceRange(range){
     const begin = range[0],
-      end = range[1];
+      end = range[1],
+      delta = 1000;
 
-    return [Math.ceil(begin * 0.9), Math.floor(end * 1.1)];
+    return [Math.ceil(begin - delta), Math.floor(end + delta)];
   }
 });
