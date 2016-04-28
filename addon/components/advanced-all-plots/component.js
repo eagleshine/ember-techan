@@ -449,8 +449,7 @@ export default Ember.Component.extend({
 
     d3.select(this.get('resetSelector')).on("click", reset);
 
-    const accessor = chart.accessor(),
-      indicatorPreRoll = 0; // Don't show where indicators don't have data
+    const accessor = chart.accessor();
 
     const data = this.get('data').map(function(d) {
       return {
@@ -468,6 +467,8 @@ export default Ember.Component.extend({
     if(!data.length){
       return;
     }
+
+    const indicatorPreRoll = Math.min(33, data.length); // Don't show where indicators don't have data
 
     x.domain(techan.scale.plot.time(data).domain());
     y.domain(this.niceRange(techan.scale.plot.ohlc(data.slice(indicatorPreRoll)).domain())).nice();
